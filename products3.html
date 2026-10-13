@@ -1,0 +1,126 @@
+<!-- Nirvaan Govind | CS20 Assignment 5: Product List in JSON, Part 1 Task 4 -->
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Products3.html</title>
+        <style>
+            .product {
+                border: 1px solid black;
+                padding: 16px;
+                background-color: beige;
+                font-family: Arial, sans-serif;
+                text-align: left;
+            }
+            .button {
+                display: inline-block;
+                margin: 0 auto 20px;
+                padding: 12px 28px;
+                font-size: 16px;
+                font-family: Arial, sans-serif;
+                background-color: beige;
+                color:black;
+                cursor: pointer;
+                border: 1px solid black;
+            }
+            .button:hover {
+                background-color: #e8e4c4;
+            }
+            h1 {
+                font-family: Arial, sans-serif;
+                text-align: center;
+            }
+            body {
+                max-width: 1000px;
+                margin: 0 auto;
+                text-align: center;
+            }
+            #result {
+                display:grid;
+                grid-template-columns: 1fr 1fr 1fr;
+                gap: 20px;
+            }
+            #categorySelect {
+                padding: 6px;
+                font-size: 14px;
+                background-color: beige;
+                border: 1px solid #999;
+                vertical-align: middle;
+            }
+            #readData {
+                margin-right: 40px;
+            }
+            #filteredResult {
+                font-family: Arial, sans-serif;
+            }
+        </style>
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script> 
+    </head>
+    <body>
+        <h1>Terrific Tech</h1>
+        <button type="button" class="button" id="readData">Read Data</button>
+        <button type="button" class="button" id="filter">Filter</button>
+        <select id="categorySelect">
+            <option value="">Select</option>
+        </select>
+        <div id="result"></div>
+        <div id="filteredResult"></div>
+        <script>
+
+            $("#filter").click(filterProducts);
+
+            $("#readData").click(function() {
+                $.get("products.json", function(data) {
+                    $("#filteredResult").html(""); 
+                    let output = "";
+                    for (let product of data) {
+                        output += "<div class='product'>";
+                        output += "<h3>" + product.name + "</h3>";
+                        output += "<p>" + product.description + "</p>";
+                        output += "<p>Price: $" + product.price + "</p>";
+                        output += "<p>Categories: " + product.categories.join(", ") + "</p>";
+                        output += "</div>";
+                    }
+                    $("#result").html(output);
+                });
+            });
+
+            $.get("products.json", function(data) {
+                let categories = [];
+                for (let product of data) {
+                    for (let category of product.categories) {
+                        if (!categories.includes(category)) {
+                            categories.push(category);
+                        }
+                    }
+                }
+
+                let options = "";
+                for (let category of categories) {
+                    options += ("<option>" + category + "</option>"); 
+                }
+                $("#categorySelect").append(options);
+            })
+
+            function filterProducts() {
+                $("#result").html("");
+                let output = "";
+                let selected = $("#categorySelect").val();
+                if (selected === "") {
+                    $("#filteredResult").html("<p>Please select a category.</p>")
+                    return;
+                }
+                $.get("products.json", function(data) {
+                    for (let product of data) {
+                        if (product.categories.includes(selected)) {
+                            output += ("<p>" + product.name + "</p>")
+                        }
+                    }
+                    $("#filteredResult").html(output);
+                });
+            }
+        </script>
+    </body>
+</html>

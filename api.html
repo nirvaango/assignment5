@@ -1,0 +1,154 @@
+<!-- Nirvaan Govind | CS20 Assignment 5: Product List in JSON, Part 2 API -->
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>api.html</title>
+        <style>
+            .song {
+                border: 1px solid black;
+                padding: 16px;
+                background-color: beige;
+                font-family: Arial, sans-serif;
+            }
+            .button {
+                display: block;
+                margin: 0 auto 20px;
+                padding: 8px 20px;
+                font-size: 14px;
+                font-family: Arial, sans-serif;
+                background-color: beige;
+                color:black;
+                cursor: pointer;
+                border: 1px solid black;
+            }
+            .button:hover {
+                background-color: #e8e4c4;
+            }
+            h1 {
+                font-family: Arial, sans-serif;
+                text-align: center;
+            }
+            body {
+                max-width: 1000px;
+                margin: 0 auto;
+            }
+            #result {
+                display:grid;
+                grid-template-columns: 1fr 1fr 1fr;
+                gap: 20px;
+            }
+            #searchInput {
+                display: block;
+                margin: 0 auto 12px;
+                padding: 10px;
+                width: 300px;
+                font-size: 16px;
+                font-family: Arial, sans-serif;
+                border: 1px solid black;
+            }
+            img {
+                width: 100%;
+            }
+            .message {
+                grid-column: 1 / -1;
+                text-align: center;
+                font-family: Arial, sans-serif;
+            }
+            audio {
+                width: 100%;
+            }
+            #about {
+                font-family: Arial, sans-serif;
+                margin-top: 40px;
+            }
+        </style>
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script> 
+    </head>
+    <body>
+        <h1>All the Music You'll Ever Need to Know About</h1>
+        <input type="text" id="searchInput" placeholder="Search artist/song">
+        <button type="button" class="button" id="searchBtn">Search</button>
+        <div id="result"></div>
+        <script>
+            $("#searchBtn").click(function() {
+                let query = $("#searchInput").val();
+                if (query.trim() === "") {
+                    $("#result").html("<p class='message'>Type an artist or song first.</p>");
+                    return;
+                }
+                let url = "https://itunes.apple.com/search?term=" + encodeURIComponent(query) + "&media=music&limit=6";
+                fetch(url)
+                    .then(res => res.text())
+                    .then(data=>{
+                        data = JSON.parse(data);
+                        let output = "";
+                        for (let song of data.results) {
+                            output += "<div class='song'>";
+                            output += "<img src='" + song.artworkUrl100.replace("100x100", "300x300") + "'>";
+                            output += "<h3>" + song.trackName + "</h3>";
+                            output += "<p>" + song.artistName + "</p>";
+                            output += "<p>" + song.collectionName + "</p>";
+                            output += "<audio controls src='" + song.previewUrl + "'></audio>";
+                            output += "</div>";
+                        }
+                        if (output === "") {
+                            output = "<p class='message'>Uh-oh. Nothing found.</p>";
+                        }
+                        $("#result").html(output);
+                    })
+                    .catch(error => console.log(error));
+            })
+        </script>
+        <div id="about">
+            <p><b>The API I selected, and why</b></p>
+                <ul>
+                    <li>The API I selected is the iTunes Search API</li>
+                    <li>The iTunes Search API lets anyone search the iTunes Store Catalog</li>
+                    <li>It returns songs, albums, movies, podcasts, etc</li>
+                    <li>
+                        For each query, the API returns the title, artist, album, genre, release date, 
+                        price, album artwork, and a link to a 30-sec audio preview
+                    </li>
+                    <li>
+                        I chose this API because it matched all the requirements, but also because it
+                        returns rich data like album artwork and a 30-second audio preview, which let me
+                        build something more interactive than just plain text.
+                    </li>
+                </ul>
+            <br>
+            <p><b>The website where I found it</b></p>
+                <ul>
+                    <li>I specifically looked for Music-based keyless APIs that return data in a JSON format</li>
+                    <li>While doing so, I came across <a href="https://codehelper.me/resources/apis/music/">this</a> list.</li>
+                    <li>That led me to the API's <a href="https://performance-partners.apple.com/search-api">source docs</a> from Apple</li>
+                </ul>
+            <br>
+            <p><b>Options/Parameters used for API request</b></p>
+                <ul>
+                    <li>The API is called with a GET request to https://itunes.apple.com/search, with 3 parameters in the query string:
+                    <ul>
+                        <li>
+                            <b>term</b>: the search query, coming from what the user types in the search box. 
+                            This is URL-encoded with <code>encodeURIComponent()</code> so names with special 
+                            characters don't break the URL.
+                        </li>
+                        <li>
+                            <b>media=music</b>: limits results to music only. Without it, the API also returns movies, podcasts, apps, and books.
+                        </li>
+                        <li>
+                            <b>limit=6</b>: caps the number of results at 6. The default is 50.
+                        </li>
+                    </ul>
+                </li></ul>
+            <br>
+            <p><b>An example where this API would be helpful</b></p>
+                <ul>
+                    <li>This API could be quite useful if one were to build a music cataloguing app like Letterboxd, but for songs instead of movies.</li>
+                </ul>
+            <br>
+        </div>
+    </body>
+</html>

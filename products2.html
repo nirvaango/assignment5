@@ -1,0 +1,67 @@
+<!-- Nirvaan Govind | CS20 Assignment 5: Product List in JSON, Part 1 Task 3 -->
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Products2.html</title>
+        <style>
+            .product {
+                border: 1px solid black;
+                padding: 16px;
+                background-color: beige;
+                font-family: Arial, sans-serif;
+            }
+            .button {
+                display: block;
+                margin: 0 auto 20px;
+                padding: 12px 28px;
+                font-size: 16px;
+                font-family: Arial, sans-serif;
+                background-color: beige;
+                color:black;
+                cursor: pointer;
+                border: 1px solid black;
+            }
+            .button:hover {
+                background-color: #e8e4c4;
+            }
+            h1 {
+                font-family: Arial, sans-serif;
+                text-align: center;
+            }
+            body {
+                max-width: 1000px;
+                margin: 0 auto;
+            }
+            #result {
+                display:grid;
+                grid-template-columns: 1fr 1fr 1fr;
+                gap: 20px;
+            }
+        </style>
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script> 
+    </head>
+    <body>
+        <h1>Terrific Tech</h1>
+        <button type="button" class="button" id="readData">Read Data</button>
+        <div id="result"></div>
+        <script>
+            $("#readData").click(function() {
+                $.get("products.json", function(data) {
+                    let output = "";
+                    for (let product of data) {
+                        output += "<div class='product'>";
+                        output += "<h3>" + product.name + "</h3>";
+                        output += "<p>" + product.description + "</p>";
+                        output += "<p>Price: $" + product.price + "</p>";
+                        output += "<p>Categories: " + product.categories.join(", ") + "</p>";
+                        output += "</div>";
+                    }
+                    $("#result").html(output);
+                });
+            });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,79 @@
+<!-- Nirvaan Govind | CS20 Assignment 5: Product List in JSON, Part 1 Task 1 -->
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Products1.html</title>
+    </head>
+    <body>
+        <script>
+            var products = [
+                {
+                    "name": "Logitech MX Master 2S",
+                    "description": "A right-handed ergonomic mouse with 7 buttons",
+                    "price": 59.99,
+                    "categories": ["Peripherals","Electronic Accessories"]
+                },
+                {
+                    "name": "Keychron K2 Keyboard",
+                    "description": "Wireless 75% mechanical keyboard with hot-swappable switches",
+                    "price": 89.99,
+                    "categories": ["Peripherals", "Electronic Accessories"]
+                },
+                {
+                    "name": "Sony WH-1000XM4",
+                    "description": "Over-ear wireless headphones with active noise cancelling",
+                    "price": 248,
+                    "categories": ["Audio", "Electronic Accessories"]
+                },
+                {
+                    "name": "Samsung T7 SSD 1TB",
+                    "description": "Pocket-sized portable SSD with USB-C, up to 1050 MB/s",
+                    "price": 99.99,
+                    "categories": ["Storage"]
+                },
+                {
+                    "name": "Anker 735 Charger",
+                    "description": "65W GaN charger with two USB-C ports and one USB-A port",
+                    "price": 45.99,
+                    "categories": ["Charging", "Electronic Accessories"]
+                },
+                {
+                    "name": "Logitech C920 Webcam",
+                    "description": "1080p HD webcam with dual stereo microphones",
+                    "price": 64.99,
+                    "categories": ["Peripherals", "Audio"]
+                },
+                {
+                    "name": "SanDisk Ultra 128GB USB Drive",
+                    "description": "USB 3.0 flash drive with 130 MB/s read speeds",
+                    "price": 14.99,
+                    "categories": ["Storage", "Electronic Accessories"]
+                },
+                {
+                    "name": "Apple AirPods Pro",
+                    "description": "In-ear wireless earbuds with transparency mode",
+                    "price": 199,
+                    "categories": ["Audio"]
+                },
+                {
+                    "name": "Anker USB-C Hub 7-in-1",
+                    "description": "Adds HDMI, SD card, USB-A and 100W pass-through charging",
+                    "price": 35.99,
+                    "categories": ["Peripherals", "Charging"]
+                },
+                {
+                    "name": "Mophie Powerstation 10K",
+                    "description": "10,000mAh portable battery pack with USB-C fast charging",
+                    "price": 39.99,
+                    "categories": ["Charging"]
+                }
+            ];
+
+            const stringJson = JSON.stringify(products);
+            document.write(stringJson);
+        </script>
+    </body>
+</html>
